@@ -1,3 +1,4 @@
+import { request } from '@/utils/request';
 // 用戶相關的 api 都寫在這
 import request from "@/utils/request";
 
@@ -23,3 +24,21 @@ export const login = (loginInfo: LoginInfo) => {
     data: `phone=${loginInfo.phone}&password=${loginInfo.password}`
   });
 };;
+
+type UserInfo = {
+  success: boolean;
+  message: string;
+  state: number;
+  content: {
+    isUpdatePassword: boolean;
+    portrait: string;
+    userName: string;
+  };
+};
+
+export const getInfo = () => {
+  return request<UserInfo>({
+    url: "/front/user/getInfo",
+    method: "GET"
+  });
+};

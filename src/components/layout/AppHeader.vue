@@ -1,6 +1,17 @@
 <script setup lang="ts">
 // 引入共用變數 isCollapse
 import { isCollapse } from './isCollapse';
+import { getInfo } from "@/api/users.ts";
+
+const userInfo = ref({
+  portrait: "",
+  userName: ""
+});
+
+getInfo().then(res => {
+  userInfo.value = res.data.content;
+  console.log(userInfo.value);
+});
 </script>
 
 <template>
@@ -21,14 +32,14 @@ import { isCollapse } from './isCollapse';
     <!-- 下拉選單 -->
     <el-dropdown>
       <span class="el-dropdown-link">
-        <el-avatar :size="32" :src="'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" />
+        <el-avatar :size="32" :src="userInfo.portrait" />
         <el-icon class="el-icon--right">
           <i-ep-arrow-down />
         </el-icon>
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>用戶姓名</el-dropdown-item>
+          <el-dropdown-item>{{ userInfo.userName }}</el-dropdown-item>
           <el-dropdown-item divided>登出</el-dropdown-item>
         </el-dropdown-menu>
       </template>
@@ -49,7 +60,8 @@ import { isCollapse } from './isCollapse';
 }
 
 .el-dropdown {
-  margin-left: auto; /* 讓下拉選單靠右 */
+  margin-left: auto;
+  /* 讓下拉選單靠右 */
 
   .el-dropdown-link {
     /* 水平+垂直置中 */
