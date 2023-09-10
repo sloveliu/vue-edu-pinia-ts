@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useTokenStore } from "@/stores/token";
 
 
 const router = createRouter({
@@ -13,6 +14,10 @@ const router = createRouter({
       path: '/',
       name: '',
       component: () => import('@/components/layout/AppLayout.vue'),
+      meta: {
+        // 需要登入驗證
+        requiresAuth: true,
+      },
       children: [
         {
           path: '',
@@ -32,6 +37,23 @@ const router = createRouter({
       ],
     }
   ]
+});
+
+// next 表示下一步要做什麼
+router.beforeEach((to, from, next) => {
+  // r 表示每一層子路由
+  if (to.matched.some(r => r.meta?.requiresAuth)) {
+    const store = useTokenStore();
+    if (!store.token.access_token) {
+      next({
+        name: 'login',
+        // 先跳回 login 後，當登入成功就跳回原頁
+        query: { redirect: to.fullPath }
+      });
+      return;
+    }
+  }
+  next();
 });
 
 export default router;

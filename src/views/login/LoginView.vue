@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from "element-plus";
 import { login } from "@/api/users.ts";
+import { useTokenStore } from "@/stores/token";
+import { useRouter, useRoute } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
+// 解構注意一下，ref 不要直接解
+const { token, saveToken } = useTokenStore();
 const form = reactive({
   phone: '18201288771',
   password: '111111',
@@ -18,7 +25,7 @@ const onSubmit = async () => {
     throw err;
     // return new Promise(() => { }); // 不想拋錯出去用這樣攔截
   });
-  // 成功發送請求出去
+
   const { content } = await login(form).then(res => {
     if (!res.data.success) {
       ElMessage.error("登入失敗");
@@ -27,8 +34,12 @@ const onSubmit = async () => {
     }
     return res.data;
   });
+  saveToken(content);
   isLoading.value = false;
+  ElMessage.success("登入成功");
+  router.push(route.query.redirect as string || "/");
 };
+
 // 表單驗證
 const rules = reactive<FormRules>({
   phone: [
