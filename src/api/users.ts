@@ -18,8 +18,8 @@ type LoginResult = {
 
 export const login = (loginInfo: LoginInfo) => {
   return request<LoginResult>({
-    url: "/front/user/login",
     method: "POST",
+    url: "/front/user/login",
     // 因為請求類型是 application/x-www-form-urlencoded，所以 data 必須用拼接，若是 application/json 則 data: loginInfo 即可
     data: `phone=${loginInfo.phone}&password=${loginInfo.password}`
   });
@@ -38,7 +38,14 @@ type UserInfo = {
 
 export const getInfo = () => {
   return request<UserInfo>({
-    url: "/front/user/getInfo",
-    method: "GET"
+    method: "GET",
+    url: "/front/user/getInfo"
+  });
+};
+
+export const logout = () => {
+  return request({
+    method: 'POST',
+    url: '/front/user/logout'
   });
 };

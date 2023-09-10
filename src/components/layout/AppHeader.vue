@@ -1,8 +1,9 @@
 <script setup lang="ts">
 // 引入共用變數 isCollapse
+import { useTokenStore } from '../../stores/token';
 import { isCollapse } from './isCollapse';
-import { getInfo } from "@/api/users.ts";
-
+import { getInfo, logout } from "@/api/users.ts";
+const router = useRouter();
 const userInfo = ref({
   portrait: "",
   userName: ""
@@ -10,8 +11,23 @@ const userInfo = ref({
 
 getInfo().then(res => {
   userInfo.value = res.data.content;
-  console.log(userInfo.value);
 });
+
+const handleLogout = async () => {
+  await ElMessageBox.confirm("確認登出？", "是否登出", {
+    type: 'warning',
+    confirmButtonText: "確定",
+    cancelButtonText: "取消"
+  }).catch(() => {
+    ElMessage.info("取消登出");
+    return new Promise(() => { });
+  });
+  await logout().catch(() => { });
+  ElMessage.success("用戶已登出");
+  // 清空 token
+  useTokenStore().saveToken("");
+  router.push({ name: "login" });
+};
 </script>
 
 <template>
@@ -40,7 +56,7 @@ getInfo().then(res => {
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>{{ userInfo.userName }}</el-dropdown-item>
-          <el-dropdown-item divided>登出</el-dropdown-item>
+          <el-dropdown-item divided @click="handleLogout">登出</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
