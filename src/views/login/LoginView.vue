@@ -5,28 +5,35 @@ const form = reactive({
   phone: '18201288771',
   password: '111111',
 });
-const formRef = ref<FormInstance>(); // 名稱要對應到 ref="formRef"
+// 名稱要對應到 ref="formRef"
+const formRef = ref<FormInstance>();
+const isLoading = ref(false);
 const onSubmit = async () => {
-  // 發送驗證，預設回傳 Promise
-  await formRef.value?.validate().catch(err => { // 只抓失敗 catch err
+  isLoading.value = true;
+  // 發送驗證，預設回傳 Promise，只抓失敗 catch err
+  await formRef.value?.validate().catch(err => {
     ElMessage.error('表單驗證失敗');
-    throw err; // 錯誤往外拋，程式就不會往下執行
+    isLoading.value = false;
+    // 錯誤往外拋，程式就不會往下執行
+    throw err;
     // return new Promise(() => { }); // 不想拋錯出去用這樣攔截
   });
   // 成功發送請求出去
   const { content } = await login(form).then(res => {
     if (!res.data.success) {
       ElMessage.error("登入失敗");
+      isLoading.value = false;
       throw new Error("登入資訊錯誤");
     }
     return res.data;
   });
-  console.log(content);
+  isLoading.value = false;
 };
 // 表單驗證
 const rules = reactive<FormRules>({
   phone: [
-    { required: true, message: "請輸入手機號碼", trigger: "blur" }, // 失去焦點時檢查
+    // 失去焦點時檢查
+    { required: true, message: "請輸入手機號碼", trigger: "blur" },
     { pattern: /^1\d{10}$/, message: "手機號碼必須是11位數字", trigger: "blur" }
     // { pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6,30}$/, message: "請輸入 6 位以上，須包含英文大小寫", trigger: "blur" } // https://blog.miniasp.com/post/2008/05/09/Using-Regular-Expression-to-validate-password
   ],
@@ -50,7 +57,7 @@ const rules = reactive<FormRules>({
         <el-input v-model="form.password" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">登入</el-button>
+        <el-button type="primary" @click="onSubmit" :loading="isLoading">登入</el-button>
       </el-form-item>
     </el-form>
   </div>
