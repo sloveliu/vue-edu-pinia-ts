@@ -1,6 +1,7 @@
 import { request } from '@/utils/request';
 // 用戶相關的 api 都寫在這
 import request from "@/utils/request";
+import { useTokenStore } from "@/stores/token";
 
 // 請求類型
 type LoginInfo = {
@@ -48,4 +49,31 @@ export const logout = () => {
     method: 'POST',
     url: '/front/user/logout'
   });
+};
+
+type RefreshToken = {
+  message: string;
+  state: number;
+  success: boolean;
+  content: string;
+};
+
+// 避免同時更新 token
+let promiseRT: Promise<any>;
+let isRefreshing = false;
+export const refreshToken = () => {
+  if (isRefreshing) {
+    return promiseRT;
+  }
+  isRefreshing = true;
+  promiseRT = request<RefreshToken>({
+    method: 'POST',
+    url: '/front/user/refresh_token',
+    params: {
+      refreshtoken: useTokenStore().token?.refresh_token,
+    }
+  }).finally(() => {
+    isRefreshing = false;
+  });
+  return promiseRT;
 };
