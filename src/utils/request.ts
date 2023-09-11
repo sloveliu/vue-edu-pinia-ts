@@ -10,7 +10,7 @@ request.interceptors.request.use((config) => {
     config.headers = {} as AxiosRequestHeaders;
   }
   const store = useTokenStore();
-  config.headers.Authorization = store.token.access_token;
+  config.headers.Authorization = store.token?.access_token;
 
   return config;
 });
