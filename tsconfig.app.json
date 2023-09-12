@@ -4,6 +4,7 @@
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
+    "moduleResolution": "Bundler",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"] // alias 的概念

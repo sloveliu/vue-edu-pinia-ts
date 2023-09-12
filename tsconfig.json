@@ -9,7 +9,14 @@
     }
   ],
   "compilerOptions": {
-    "types": ["element-plus/global"]
+    "strict": true, // 開啟嚴格類型檢查
+    "forceConsistentCasingInFileNames": true, // Ensure that casing is correct in imports.
+    "types": ["element-plus/global"],
+    // 解決 import 找不到 ts 問題
+    "baseUrl":".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   // ts 校驗時會到以下路徑找
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "auto-imports.d.ts", "components.d.ts"]
