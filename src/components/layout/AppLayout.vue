@@ -27,6 +27,6 @@
 
 .el-main {
   background-color: #f4f4f5;
-  padding-right: 0; /* el-main 有預設的 padding */
+  /* padding-right: 0; // el-main 有預設的 padding */
 }
 </style>

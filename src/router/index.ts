@@ -30,6 +30,11 @@ const router = createRouter({
           component: () => import('@/views/AboutView.vue')
         },
         {
+          path: '/menus',
+          name: 'menus',
+          component: () => import('@/views/menu/MenuIndex.vue')
+        },
+        {
           path: '/:xxx(.*)*',
           name: 'ErrorPage',
           component: () => import('@/views/ErrorPage.vue')
