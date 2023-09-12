@@ -1,4 +1,3 @@
-import { request } from '@/utils/request';
 // 用戶相關的 api 都寫在這
 import request from "@/utils/request";
 import { useTokenStore } from "@/stores/token";

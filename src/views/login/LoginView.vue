@@ -58,7 +58,7 @@ const rules = reactive<FormRules>({
 
 <template>
   <div class="login">
-    <!-- label-position top 標籤位置在上，size="large" 輸入框大小 -->
+    <!-- label-position top 標籤位置在上，size="large" 輸入框大小。:rule 綁定規則 -->
     <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" label-position="top" size="large">
       <h2>登入</h2>
       <!-- prop="phone" 採用 rules phone 的驗證規則 -->
