@@ -9,16 +9,20 @@ type LoginInfo = {
   code?: string;
   password: string;
 };
-// 返回類型
-type LoginResult = {
+
+// 定義泛型 T 型參，傳入實際參數
+type CommonReturn<T = string> = {
   success: boolean;
-  state: number;
   message: string;
-  content: string;
+  state: number;
+  content: T;
 };
 
+// 返回類型，傳入實參 string
+// type LoginResult = CommonReturn;
+
 export const login = (loginInfo: LoginInfo) => {
-  return request<LoginResult>({
+  return request<CommonReturn>({
     method: "POST",
     url: "/front/user/login",
     // 因為請求類型是 application/x-www-form-urlencoded，所以 data 必須用拼接，若是 application/json 則 data: loginInfo 即可
@@ -26,16 +30,11 @@ export const login = (loginInfo: LoginInfo) => {
   });
 };;
 
-type UserInfo = {
-  success: boolean;
-  message: string;
-  state: number;
-  content: {
-    isUpdatePassword: boolean;
-    portrait: string;
-    userName: string;
-  };
-};
+type UserInfo = CommonReturn<{
+  isUpdatePassword: boolean;
+  portrait: string;
+  userName: string;
+}>;
 
 export const getInfo = () => {
   return request<UserInfo>({
@@ -51,12 +50,7 @@ export const logout = () => {
   });
 };
 
-type RefreshToken = {
-  message: string;
-  state: number;
-  success: boolean;
-  content: string;
-};
+// type RefreshToken = CommonReturn;
 
 // 避免同時更新 token
 let promiseRT: Promise<any>;
@@ -66,7 +60,7 @@ export const refreshToken = () => {
     return promiseRT;
   }
   isRefreshing = true;
-  promiseRT = request<RefreshToken>({
+  promiseRT = request<CommonReturn>({
     method: 'POST',
     url: '/front/user/refresh_token',
     params: {
