@@ -25,7 +25,6 @@ export default defineConfig({
     }
   },
   plugins: [
-    vue(),
     AutoImport({
       imports: ['vue', 'vue-router', 'pinia'], // 自動導入 vue 相關函式如 ref, reactive, toRef 等，之後就不用寫 import
       resolvers: [ElementPlusResolver(), IconsResolver()]
@@ -41,7 +40,8 @@ export default defineConfig({
     }),
     Icons({
       autoInstall: true // 使用 Icon 時，自動安裝圖片，不用手動 import
-    })
+    }),
+    vue()
   ],
   resolve: {
     alias: {
