@@ -30,3 +30,26 @@ export const getAll = () => {
     url: "/boss/menu/getAll"
   });
 };
+
+// Partial 後，每個屬性都加上 ?
+// type CreateOrEditMenu = Partial<MenuItem>;
+// Pick 則挑選需要的，可再進行調整或追加
+type CreateOrEditMenu = Pick<MenuItem, "parentId" | "name" | "href" | "icon" | "orderNum" | "description" | "shown"> & { id?: number; };
+// Omit 刪去不要的
+// export type CreateOrEditMenu = Omit<MenuItem, "createdBy" | "createdTime" | "level" | "operatorId" | "updatedBy" | "updatedTime"> & { id?: number; };
+
+// 新增選單帶 id，修改選單不帶 id
+export const saveOrUpdate = (menuInfo: CreateOrEditMenu) => {
+  return request<CommonReturn<boolean>>({
+    method: "POST",
+    url: "/boss/menu/saveOrUpdate",
+    data: menuInfo
+  });
+};
+
+export const deleteMenu = (id: string) => {
+  return request<CommonReturn<boolean>>({
+    method: "DELETE",
+    url: `/boss/menu/${id}`
+  });
+};
