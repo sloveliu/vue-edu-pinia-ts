@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { useMenus } from "@/composables/useMenus";
-const { getAllMenus, topMenus, form, onSubmit } = useMenus();
+import { useRoute, useRouter } from 'vue-router';
+const { getAllMenus, topMenus, form, onSubmit, getMenuInfoById, msgText } = useMenus();
 
 getAllMenus();
-// 過濾頂級選單，等 allMenus 取得值時進行過濾回傳
+const route = useRoute();
+const router = useRouter();
+// 當編輯狀態時透過 id 取得選單
+getMenuInfoById(route.params.id as string)
 
 </script>
 
@@ -38,8 +42,8 @@ getAllMenus();
       <el-input v-model="form.orderNum" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">建立</el-button>
-      <el-button>取消</el-button>
+      <el-button type="primary" @click="onSubmit">{{ msgText }}</el-button>
+      <el-button @click="router.push('/menus')">取消</el-button>
     </el-form-item>
   </el-form>
 </template>

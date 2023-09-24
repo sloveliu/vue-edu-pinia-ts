@@ -34,7 +34,7 @@ export const getAll = () => {
 // Partial 後，每個屬性都加上 ?
 // type CreateOrEditMenu = Partial<MenuItem>;
 // Pick 則挑選需要的，可再進行調整或追加
-type CreateOrEditMenu = Pick<MenuItem, "parentId" | "name" | "href" | "icon" | "orderNum" | "description" | "shown"> & { id?: number; };
+export type CreateOrEditMenu = Pick<MenuItem, "parentId" | "name" | "href" | "icon" | "orderNum" | "description" | "shown"> & { id?: number; };
 // Omit 刪去不要的
 // export type CreateOrEditMenu = Omit<MenuItem, "createdBy" | "createdTime" | "level" | "operatorId" | "updatedBy" | "updatedTime"> & { id?: number; };
 
@@ -51,5 +51,25 @@ export const deleteMenu = (id: string) => {
   return request<CommonReturn<boolean>>({
     method: "DELETE",
     url: `/boss/menu/${id}`
+  });
+};
+
+// SubMenuList 有多層嵌套，但也可能是 null
+type SubMenuList = MenuItem & {
+  subMenuList: SubMenuList[] | null;
+};
+
+type EditMenuInfo = CommonReturn<{
+  menuInfo: MenuItem;
+  parentMenuList: MenuItem[];
+}>;
+
+export const getEditMenuInfo = (id: string) => {
+  return request<EditMenuInfo>({
+    method: 'GET',
+    url: `/boss/menu/getEditMenuInfo`,
+    params: {
+      id
+    }
   });
 };

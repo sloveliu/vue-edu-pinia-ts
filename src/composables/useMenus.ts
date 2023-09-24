@@ -1,4 +1,4 @@
-import { getAll, saveOrUpdate, deleteMenu } from "@/api/menus";
+import { getAll, saveOrUpdate, deleteMenu, getEditMenuInfo } from "@/api/menus";
 import type { MenuItem, CreateOrEditMenu } from "@/api/menus";
 import router from "@/router/index";
 export const useMenus = () => {
@@ -30,12 +30,14 @@ export const useMenus = () => {
   const onSubmit = async () => {
     const { data } = await saveOrUpdate(form.value);
     if (data.code === "000000") {
-      ElMessage.success("建立成功");
+      ElMessage.success(`${msgText.value}選單成功`);
       router.push({ name: "menus" });
     } else {
-      ElMessage.error("建立失敗");
-      throw new Error("建立失敗");
+      ElMessage.error(`${msgText.value}選單失敗`);
+      throw new Error(`${msgText.value}選單失敗`);
     }
+    // Todo 待確認為什麼沒 return 的話會無法跳轉
+    return;
   };
   // 刪除選單
   const handleDelete = async (id: string) => {
@@ -55,5 +57,25 @@ export const useMenus = () => {
       throw new Error("刪除失敗");
     }
   };
-  return { allMenus, getAllMenus, topMenus, form, onSubmit, handleDelete };
+  const getMenuInfoById = async (id: string) => {
+    // 依據 id 判斷帳太，建立時不會傳 id，所以是 undefined
+    if (!Number(id)) {
+      isCreate.value = true;
+      return;
+    } else {
+      isCreate.value = false;
+    }
+    const { data } = await getEditMenuInfo(id);
+    if (data.code === "000000") {
+      form.value = data.data.menuInfo;
+    } else {
+      ElMessage.error("取得編輯選單失敗");
+      throw new Error("取得編輯選單失敗");
+    }
+  };
+  // 狀態提示建立或編輯選單
+  const isCreate = ref(true);
+  const msgText = computed(() => isCreate.value ? "建立" : "更新");
+
+  return { allMenus, getAllMenus, topMenus, form, onSubmit, handleDelete, getMenuInfoById, msgText };
 };
