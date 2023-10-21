@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
+import zhTw from 'element-plus/es/locale/lang/zh-tw'
 </script>
 
 <template>
-  <RouterView />
+  <el-config-provider :locale="zhTw">
+    <RouterView />
+  </el-config-provider>
 </template>
 
 <style scoped></style>

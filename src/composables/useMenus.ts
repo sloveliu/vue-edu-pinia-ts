@@ -4,7 +4,7 @@ import router from "@/router/index";
 export const useMenus = () => {
   // 不直接 export allMenus getAllMenus 避免多個地方操作同一份會互相影響
   // 儲存回傳的資料，預設 MenuItem 類型空陣列
-  const allMenus = ref([] as MenuItem);
+  const allMenus = ref([] as MenuItem[]);
   const getAllMenus = async () => {
     const { data } = await getAll();
     if (data.code === "000000") {

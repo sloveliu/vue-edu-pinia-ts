@@ -11,7 +11,7 @@
   "compilerOptions": {
     "strict": true, // 開啟嚴格類型檢查
     "forceConsistentCasingInFileNames": true, // Ensure that casing is correct in imports.
-    "types": ["element-plus/global"],
+    "types": ["element-plus/global","element-plus/lib/locale"],
     // 解決 import 找不到 ts 問題
     "baseUrl":".",
     "paths": {

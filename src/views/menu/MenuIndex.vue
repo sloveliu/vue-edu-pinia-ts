@@ -23,7 +23,7 @@ getAllMenus();
       <el-table-column prop="orderNum" label="排序" align="center" />
       <!-- 用 slot scope 取得每次 allMenus 遍歷的資料 -->
       <el-table-column label="操作" align="center" v-slot="scope">
-        <!-- 傳送網址中的 id，也可以寫成 router.push(`/menu/${id}/edit`)-->
+        <!-- 傳送網址中的 id，也可以寫成 router.push(`/menu/${id}/edit`)，多方同時操作下，建議去抓 api 取最新的值-->
         <el-button type="primary" @click="router.push({ name: 'menu-edit', params: { id: scope.row.id } })">編輯</el-button>
         <el-button type="danger" @click="handleDelete(scope.row.id)">刪除</el-button>
       </el-table-column>

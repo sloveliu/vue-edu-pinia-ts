@@ -45,6 +45,16 @@ const router = createRouter({
           component: () => import('@/views/menu/CreateOrEdit.vue')
         },
         {
+          path: '/resource-category',
+          name: 'resource-category',
+          component: () => import('@/views/resource-category/ResourceCategoryIndex.vue')
+        },
+        {
+          path: '/resources',
+          name: 'resources',
+          component: () => import('@/views/resources/ResourcesIndex.vue')
+        },
+        {
           path: '/:xxx(.*)*',
           name: 'ErrorPage',
           component: () => import('@/views/ErrorPage.vue')

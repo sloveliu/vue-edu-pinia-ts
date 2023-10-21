@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from "element-plus";
-import { login } from "@/api/users.ts";
+import { login } from "@/api/users";
 import { useTokenStore } from "@/stores/token";
 import { useRouter, useRoute } from "vue-router";
 

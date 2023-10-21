@@ -66,7 +66,7 @@ type EditMenuInfo = CommonReturn<{
 
 export const getEditMenuInfo = (id: string) => {
   return request<EditMenuInfo>({
-    method: 'GET',
+    method: "GET",
     url: `/boss/menu/getEditMenuInfo`,
     params: {
       id

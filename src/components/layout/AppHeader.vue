@@ -2,7 +2,7 @@
 // 引入共用變數 isCollapse
 import { useTokenStore } from '../../stores/token';
 import { isCollapse } from './isCollapse';
-import { getInfo, logout } from "@/api/users.ts";
+import { getInfo, logout } from "@/api/users";
 const router = useRouter();
 const userInfo = ref({
   portrait: "",
@@ -14,7 +14,7 @@ getInfo().then(res => {
 });
 
 const handleLogout = async () => {
-  await ElMessageBox.confirm("確認登出？", "是否登出", {
+  await ElMessageBox.confirm("確認登出？", "登出", {
     type: 'warning',
     confirmButtonText: "確定",
     cancelButtonText: "取消"
