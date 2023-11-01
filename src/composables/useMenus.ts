@@ -10,8 +10,9 @@ export const useMenus = () => {
     if (data.code === "000000") {
       allMenus.value = data.data;
     } else {
-      ElMessage.error("取得選單資料失敗");
-      throw new Error("取得選單資料失敗");
+      const errMsg = `取得選單資料失敗 ${data.mesg}`;
+      ElMessage.error(errMsg);
+      throw new Error(errMsg);
     }
   };
   const topMenus = computed(() => allMenus.value.filter(menu => menu.level === 0));
@@ -33,8 +34,9 @@ export const useMenus = () => {
       ElMessage.success(`${msgText.value}選單成功`);
       router.push({ name: "menus" });
     } else {
-      ElMessage.error(`${msgText.value}選單失敗`);
-      throw new Error(`${msgText.value}選單失敗`);
+      const errMsg = `${msgText.value}選單失敗 ${data.mesg}`;
+      ElMessage.error(errMsg);
+      throw new Error(errMsg);
     }
     // Todo 待確認為什麼沒 return 的話會無法跳轉
     return;
@@ -53,8 +55,9 @@ export const useMenus = () => {
       ElMessage.success("刪除成功");
       getAllMenus();
     } else {
-      ElMessage.error("刪除失敗");
-      throw new Error("刪除失敗");
+      const errMsg = `刪除失敗 ${data.mesg}`;
+      ElMessage.error(errMsg);
+      throw new Error(errMsg);
     }
   };
   const getMenuInfoById = async (id: string) => {
@@ -69,8 +72,9 @@ export const useMenus = () => {
     if (data.code === "000000") {
       form.value = data.data.menuInfo;
     } else {
-      ElMessage.error("取得編輯選單失敗");
-      throw new Error("取得編輯選單失敗");
+      const errMsg = `取得編輯選單失敗 ${data.mesg}`;
+      ElMessage.error(errMsg);
+      throw new Error(errMsg);
     }
   };
   // 狀態提示建立或編輯選單

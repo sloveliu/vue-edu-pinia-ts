@@ -29,7 +29,8 @@ export const queryResources = async (params: Condition = {}) => {
   if (data.code === "000000") {
     queriedResult.value = data.data;
   } else {
-    ElMessage.error("取得資源失敗");
-    throw new Error("取得資源失敗");
+    const errMsg = `取得資源失敗 ${data.mesg}`;
+    ElMessage.error(errMsg);
+    throw new Error(errMsg);
   }
 };

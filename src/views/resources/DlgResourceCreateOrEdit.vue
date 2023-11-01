@@ -31,8 +31,9 @@ const initAndShow = async (id = 0) => {
     if (data.code = "000000") {
       Object.assign(form, data.data);
     } else {
-      ElMessage.error(`獲取 Id:${id} 資源失敗`);
-      throw new Error(`獲取 Id:${id} 資源失敗`);
+      const errMsg = `獲取 Id:${id} 資源失敗 ${data.mesg}`;
+      ElMessage.error(errMsg);
+      throw new Error(errMsg);
     }
   } else {
     isCreate.value = true;
@@ -49,8 +50,9 @@ const onSubmit = async () => {
     ElMessage.success(`${msgText.value}資源成功`);
     queryResources({ current: 1 });
   } else {
-    ElMessage.error(`${msgText.value}資源失敗`);
-    throw new Error(`${msgText.value}資源失敗`);
+    const errMsg = `${msgText.value}資源失敗 ${data.mesg}`;
+    ElMessage.error(errMsg);
+    throw new Error(errMsg);
   }
 };
 </script>

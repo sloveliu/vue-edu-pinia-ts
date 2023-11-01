@@ -9,8 +9,9 @@ export const getAllResourceCategory = async () => {
   if (data.code === "000000") {
     allResourceCategory.value = data.data;
   } else {
-    ElMessage.error("獲取資源失敗");
-    throw new Error("獲取資源失敗");
+    const errMsg = `獲取資源失敗 ${data.mesg}`;
+    ElMessage.error(errMsg);
+    throw new Error(errMsg);
   }
 };
 
@@ -31,8 +32,9 @@ export const onSubmit = async () => {
     getAllResourceCategory();
     // 清空 form
   } else {
-    ElMessage.error(`${msgText.value} 資源類型失敗`);
-    throw new Error(`${msgText.value} 資源類型失敗`);
+    const errMsg = `${msgText.value} 資源類型失敗 ${data.mesg}`;
+    ElMessage.error(errMsg);
+    throw new Error(errMsg);
   }
 };
 
@@ -51,7 +53,8 @@ export const handleDelete = async (id: number) => {
     ElMessage.success("刪除資源類型成功");
     getAllResourceCategory();
   } else {
-    ElMessage.error("刪除資源類型失敗");
-    throw new Error("刪除資源類型失敗");
+    const errMsg = `刪除資源類型失敗 ${data.mesg}`;
+    ElMessage.error(errMsg);
+    throw new Error(errMsg);
   }
 };
