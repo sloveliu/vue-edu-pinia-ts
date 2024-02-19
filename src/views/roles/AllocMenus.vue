@@ -1,0 +1,54 @@
+<script setup lang="ts">
+import { getRoleMenus } from "@/api/roles";
+import type { RoleMenuItem } from "@/api/roles";
+// 第一種方式
+// import { useRoute } from "vue-router";
+// const route = useRoute();
+// console.log(route.params.roleId);
+// 第二種方式，搭配 route index 裡設定 props: true
+const props = defineProps({
+  roleId: {
+    type: String,
+    required: true,
+  }
+});
+const roleMenus = ref<RoleMenuItem[]>();
+// 預設被選中的 key
+const checkedIds = ref<number[]>([]);
+// 取得所有被選中的選單 Id
+const getCheckedIds = (arrData: RoleMenuItem[]) => {
+  arrData.forEach((roleMenu) => {
+    console.log(roleMenu);
+    if (roleMenu.subMenuList?.length) {
+      // 選單底下有子選單則回調 getCheckedIds
+      getCheckedIds(roleMenu.subMenuList);
+    } else if (roleMenu.selected) {
+      checkedIds.value?.push(roleMenu.id);
+      console.log(checkedIds.value);
+    }
+  });
+};
+const loadRoleMenus = async () => {
+  const { data } = await getRoleMenus(props.roleId);
+  if (data.code === "000000") {
+
+    roleMenus.value = data.data;
+    getCheckedIds(data.data);
+  } else {
+    const errMsg = `獲取角色選單失敗 ${data.mesg}`;
+    ElMessage.error(errMsg);
+    throw new Error(errMsg);
+  }
+};
+loadRoleMenus()
+
+</script>
+
+<template>
+  <!-- default-expand-all 預設展開選單，node-key 唯一標識 -->
+  <el-tree :data="roleMenus" :props="{ label: 'name', children: 'subMenuList' }" :default-checked-keys="checkedIds"
+    show-checkbox default-expand-all node-key="id">
+  </el-tree>
+</template>
+
+<style lang="scss" scoped></style>

@@ -55,6 +55,17 @@ const router = createRouter({
           component: () => import('@/views/resources/ResourcesIndex.vue')
         },
         {
+          path: '/roles',
+          name: 'roles',
+          component: () => import('@/views/roles/RolesIndex.vue')
+        },
+        {
+          path: '/roles/:roleId/alloc-menus',
+          name: 'alloc-menus',
+          component: () => import('@/views/roles/AllocMenus.vue'),
+          props: true, // 把:roleId 當成屬性接收
+        },
+        {
           path: '/:xxx(.*)*',
           name: 'ErrorPage',
           component: () => import('@/views/ErrorPage.vue')
