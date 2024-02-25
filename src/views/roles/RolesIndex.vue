@@ -36,7 +36,7 @@ const handleDelete = async (id: number) => {
           <el-input v-model="queryCondition.name" placeholder="角色名稱" clearable />
         </el-form-item>
         <el-form-item>
-          <el-button type="" @click="queryCondition.name = ''">重置</el-button>
+          <el-button type="" @click="queryRoles({ name: '' })">重置</el-button>
           <!-- click 預設會傳 event，所以用 queryRoles 會被傳進去，所以要用()-->
           <el-button type="primary" @click="queryRoles({ current: 1 })">查詢</el-button>
         </el-form-item>
