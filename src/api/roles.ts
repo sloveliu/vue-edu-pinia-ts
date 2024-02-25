@@ -17,6 +17,14 @@ type Common<T> = {
   time: string;
 };
 
+type CommonOperator = {
+  operatorId?: number | null,
+  createdBy?: string,
+  createdTime?: string;
+  updatedBy?: string;
+  updatedTime?: string;
+};
+
 // 一開始都還沒建立時，回傳會是空的，所以用 Partial
 export type QueryResult = Partial<{
   current: number;
@@ -30,16 +38,11 @@ export type QueryResult = Partial<{
   total: number;
 }>;
 
-export type Role = {
+export type Role = CommonOperator & {
   code: string;
-  createdBy?: string;
-  createdTime?: string;
   description: string;
   id?: number;
   name: string;
-  operatorId?: number | null;
-  updatedBy?: string;
-  updatedTime?: string;
 };
 
 export const getRolePages = (condition: Condition) => {
@@ -73,23 +76,18 @@ export const getRoleById = (id: number) => {
   });
 };
 
-export type RoleMenuItem = {
-  createdBy: string,
-  createdTime: string,
+export type RoleMenuItem = CommonOperator & {
   description: string,
   href: string,
   icon: string,
   id: number,
   level: number,
   name: string,
-  operatorId: number | null,
   orderNum: number,
   parentId: number,
   selected: boolean,
   shown: boolean,
   subMenuList: RoleMenuItem[] | null,
-  updatedBy: string,
-  updatedTime: string,
 };
 
 
@@ -101,6 +99,56 @@ export const getRoleMenus = (roleId: string) => {
     // 等同/?roleId=id
     params: {
       roleId
+    }
+  });
+};
+
+export const allocateRoleMenus = (roleId: string, menuIdList: number[]) => {
+  return request<Common<boolean>>({
+    method: "POST",
+    url: "/boss/menu/allocateRoleMenus",
+    data: {
+      roleId,
+      menuIdList
+    }
+  });
+};
+
+export type RoleResourceItem = CommonOperator & {
+  // createdBy、createTime、updateBy、updateTime 相同可以提取出來
+  categoryId: string,
+  description: string,
+  id: number,
+  name: string,
+  selected: boolean,
+  url: string,
+};
+
+export type RoleCategoryItem = {
+  id: number,
+  name: string,
+  resourceList: null | RoleResourceItem[],
+  selected: boolean,
+  sort: number,
+};
+
+export const getRoleResources = (roleId: string) => {
+  return request<Common<RoleCategoryItem[]>>({
+    method: 'GET',
+    url: "/boss/resource/getRoleResources",
+    params: {
+      roleId
+    }
+  });
+};
+
+export const allocateRoleResources = (roleId: string, resourceIdList: number[]) => {
+  return request<Common<boolean>>({
+    method: 'POST',
+    url: "/boss/resource/allocateRoleResources",
+    data: {
+      roleId,
+      resourceIdList
     }
   });
 };

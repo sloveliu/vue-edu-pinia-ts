@@ -27,7 +27,6 @@ const initAndShow = async (id = 0) => {
     isCreate.value = false;
     msgText.value = "更新";
     const { data } = await getResourceById(id);
-    console.log(data);
     if (data.code = "000000") {
       Object.assign(form, data.data);
     } else {

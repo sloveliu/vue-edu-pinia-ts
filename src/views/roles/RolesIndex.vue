@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { timeFormatter } from "@/utils/timeHandlers";
 import { queryRoles, queryCondition, queriedResult } from "@/composables/useRoles";
-import DlgRoleCreateAndEdit from '@/views/roles/DlgRoleCreateOrEdit.vue';
+import DlgRoleCreateOrEdit from "@/views/roles/DlgRoleCreateOrEdit.vue";
 import { deleteRole } from '@/api/roles';
 queryRoles();
-const dlgCreateOrEdit = ref<InstanceType<typeof DlgRoleCreateAndEdit> | null>(null);
+const dlgCreateOrEdit = ref<InstanceType<typeof DlgRoleCreateOrEdit> | null>(null);
 const handleDelete = async (id: number) => {
   await ElMessageBox.confirm("確認是否刪除？", "刪除提示", {
     confirmButtonText: "確定",
@@ -51,7 +51,8 @@ const handleDelete = async (id: number) => {
       <el-table-column label="操作" align="center" width="150" v-slot="{ row }">
         <el-button type="primary" link
           @click="$router.push({ name: 'alloc-menus', params: { roleId: row.id } })">分配選單</el-button>
-        <el-button type="primary" link>分配資源</el-button>
+        <el-button type="primary" link
+          @click="$router.push({ name: 'alloc-resources', params: { roleId: row.id } })">分配資源</el-button>
         <el-button type="primary" link @click="dlgCreateOrEdit?.initAndShow(row.id)">編輯</el-button>
         <el-button type="primary" link @click="handleDelete(row.id)">刪除</el-button>
       </el-table-column>
@@ -59,7 +60,7 @@ const handleDelete = async (id: number) => {
     <el-pagination v-model:current-page="queryCondition.current" v-model:page-size="queryCondition.size"
       :page-sizes="[5, 10, 20, 30]" layout="total, sizes, prev, pager, next, jumper" :total="queriedResult.total"
       @size-change="size => queryRoles({ size, current: 1 })" @current-change="current => queryRoles({ current })" />
-    <DlgRoleCreateAndEdit ref="dlgCreateOrEdit" @role-change="queryRoles({ current: 1 })" />
+    <DlgRoleCreateOrEdit ref="dlgCreateOrEdit" @role-change="queryRoles({ current: 1 })" />
   </el-card>
 </template>
 
