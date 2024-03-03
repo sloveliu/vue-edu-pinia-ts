@@ -9,6 +9,9 @@
     }
   ],
   "compilerOptions": {
+    "module":"ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
     "strict": true, // 開啟嚴格類型檢查
     "forceConsistentCasingInFileNames": true, // Ensure that casing is correct in imports.
     "types": ["element-plus/global","element-plus/lib/locale"],
