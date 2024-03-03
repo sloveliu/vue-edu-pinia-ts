@@ -2,6 +2,7 @@ import { useTokenStore } from '@/stores/token';
 import { refreshToken } from '@/api/users';
 import router from '@/router/index';
 import axios from 'axios';
+import type { AxiosRequestHeaders } from 'axios';
 const request = axios.create({
   // baseURL: import.meta.env.VITE_API_URL, // 注解掉後，會直接打當前本地 http://localhost:4000/，但在 vite.config.ts 配置 proxy
 });
@@ -29,6 +30,9 @@ request.interceptors.response.use(res => res, async (err) => {
       router.push({ name: "login" });
       return;
     }
+  } else if (err.response.status === 403) {
+    ElMessage.error("當前操作權限不足");
+    return { data: { code: 403 } };
   }
   return Promise.reject(err);
 });
