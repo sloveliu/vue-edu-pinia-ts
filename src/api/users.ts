@@ -1,3 +1,4 @@
+import { queryCondition } from './../composables/useResources';
 // 用戶相關的 api 都寫在這
 import request from "@/utils/request";
 import { useTokenStore } from "@/stores/token";
@@ -69,4 +70,84 @@ export const refreshToken = () => {
     isRefreshing = false;
   });
   return promiseRT;
+};
+
+// 共用類型
+type Common<T> = {
+  code: string;
+  data: T;
+  mesg: string;
+  time: string;
+};
+
+// 每個用戶的類型
+type UserItem = {
+  accountNonExpired: boolean;
+  accountNonLocked: boolean;
+  createTime: string;
+  credentialsNonExpired: boolean;
+  id: number;
+  isDel: boolean;
+  name: string;
+  password: string;
+  phone: string;
+  portrait: string | null;
+  regIp: string | null;
+  status: "ENABLE" | "DISABLE";
+  updateTime: string;
+};
+
+// 用戶查詢結果類型
+// export type QueryResult = Common<{
+export type QueryResult = {
+  current: number;
+  hitCount: boolean;
+  optimizeCountSql: boolean;
+  orders: any[];
+  pages: number;
+  records: UserItem[];
+  searchCount: boolean;
+  size: number;
+  total: number;
+};
+
+// Partial 每一個查詢條件都是可選項
+export type QueryCondition = Partial<{
+  currentPage: number;
+  pageSize: number;
+  phone: string;
+  userId: number;
+  startCreateTime: string;
+  endCreateTime: string;
+}>;
+
+// 取得用戶列表
+export const getUserPages = (queryCondition: QueryCondition = {}) => {
+  return request<Common<QueryResult>>({
+    method: 'POST',
+    url: '/boss/user/getUserPages',
+    data: queryCondition,
+  });
+};
+
+// 啟用用戶
+export const enableUser = (userId: number) => {
+  return request<Common<boolean>>({
+    method: 'GET',
+    url: '/boss/user/enableUser',
+    params: {
+      userId,
+    },
+  });
+};
+
+// 停用用戶
+export const forbidUser = (userId: number) => {
+  return request<Common<boolean>>({
+    method: 'POST',
+    url: '/boss/user/forbidUser',
+    data: {
+      userId,
+    },
+  });
 };

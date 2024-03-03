@@ -72,6 +72,12 @@ const router = createRouter({
           props: true, // 把:roleId 當成屬性接收
         },
         {
+          path: '/users',
+          name: 'users',
+          component: () => import('@/views/users/UsersIndex.vue'),
+          props: true, // 把:roleId 當成屬性接收
+        },
+        {
           path: '/:xxx(.*)*',
           name: 'ErrorPage',
           component: () => import('@/views/ErrorPage.vue')
