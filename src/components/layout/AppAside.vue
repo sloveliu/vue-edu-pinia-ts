@@ -37,23 +37,23 @@ import { isCollapse } from './isCollapse';
         </el-sub-menu>
         <el-menu-item index="/users">
           <el-icon>
-            <IEpSetting />
+            <IEpUser/>
           </el-icon> <span>用戶管理</span>
         </el-menu-item>
         <el-menu-item index="/course">
           <el-icon>
-            <IEpSetting />
+            <IEpFilm />
           </el-icon> <span>課程管理</span>
         </el-menu-item>
         <el-sub-menu index="2">
           <template #title>
             <el-icon>
-              <IEpSetting />
+              <IEpSetting/>
             </el-icon> <span>廣告管理</span>
           </template>
           <el-menu-item index="/ads">
             <el-icon>
-              <IEpSetting />
+              <IEpSetting/>
             </el-icon> <span>廣告列表</span>
           </el-menu-item>
           <el-menu-item index="/ads-space">

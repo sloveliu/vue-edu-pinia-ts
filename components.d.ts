@@ -57,6 +57,7 @@ declare module 'vue' {
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     IEpArrowDown: typeof import('~icons/ep/arrow-down')['default']
     IEpExpand: typeof import('~icons/ep/expand')['default']
+    IEpFilm: typeof import('~icons/ep/film')['default']
     IEpFold: typeof import('~icons/ep/fold')['default']
     IEpSetting: typeof import('~icons/ep/setting')['default']
     IEpUser: typeof import('~icons/ep/user')['default']

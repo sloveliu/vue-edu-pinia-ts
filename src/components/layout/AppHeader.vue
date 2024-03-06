@@ -40,10 +40,10 @@ const handleLogout = async () => {
     </el-icon>
     <!-- 麵包屑 -->
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">promotion management</a></el-breadcrumb-item>
-      <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-      <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">首頁</el-breadcrumb-item>
+      <el-breadcrumb-item><a href="/">一級</a></el-breadcrumb-item>
+      <el-breadcrumb-item>二級</el-breadcrumb-item>
+      <el-breadcrumb-item>三級</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 下拉選單 -->
     <el-dropdown>
