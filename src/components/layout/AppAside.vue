@@ -92,6 +92,7 @@ import { isCollapse } from './isCollapse';
   background-color: #e9e9eb;
   border-right: none;
   width: 200px;
+  white-space: nowrap;
 
   &.el-menu--collapse {
     // & 表示父元素 .el-menu 等同 .el-menu.el-menu--collapse
