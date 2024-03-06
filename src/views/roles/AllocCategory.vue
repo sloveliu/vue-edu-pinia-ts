@@ -30,7 +30,10 @@ props.category.resourceList?.forEach(resource => {
 emit("postCheckedIdsRef", checkedIds);
 // 當群組內沒有任何項目被選中時，將全選/全部選，改為 false
 watchEffect(() => {
-  if (checkedIds.value.length === 0) checkAll.value = false;
+  if (checkedIds.value.length === 0) {
+    checkAll.value = false;
+    isIndeterminate.value = false;
+  }
 });
 
 const handleCheckAllChange = (value: CheckboxValueType) => {
